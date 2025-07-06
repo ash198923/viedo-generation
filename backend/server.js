@@ -5,16 +5,25 @@ const videoshow = require('videoshow');
 const path = require('path');
 const fs = require('fs');
 
+const videosDir = path.join(__dirname, 'videos');
+if (!fs.existsSync(videosDir)){
+    fs.mkdirSync(videosDir, { recursive: true });
+}
+
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
-app.use(express.static(path.join(__dirname, 'videos')));
+app.use('/videos', express.static(videosDir));
 app.use(express.json());
 
 app.post('/generate', (req, res) => {
     const { text } = req.body;
+
+    const imagePath = path.join(__dirname, '..', 'frontend', 'placeholder.png');
+    if (!fs.existsSync(imagePath)) {
+        return res.status(500).json({ error: 'placeholder.png not found on server. Please add it to the frontend directory and push your changes.' });
+    }
+
     const images = [
-        // For simplicity, using a single placeholder image.
-        // In a real application, you would generate images from the text.
-        { path: path.join(__dirname, '..', 'frontend', 'placeholder.png'), loop: 5 }
+        { path: imagePath, loop: 5 }
     ];
 
     const videoOptions = {
