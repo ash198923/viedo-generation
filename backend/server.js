@@ -5,8 +5,8 @@ const videoshow = require('videoshow');
 const path = require('path');
 const fs = require('fs');
 
-app.use(express.static('../frontend'));
-app.use(express.static('videos'));
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+app.use(express.static(path.join(__dirname, 'videos')));
 app.use(express.json());
 
 app.post('/generate', (req, res) => {
