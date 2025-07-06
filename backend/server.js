@@ -15,7 +15,7 @@ app.use('/videos', express.static(videosDir));
 app.use(express.json());
 
 app.post('/generate', (req, res) => {
-    const { text } = req.body;
+    const { text, format } = req.body;
 
     const imagePath = path.join(__dirname, '..', 'frontend', 'placeholder.png');
     if (!fs.existsSync(imagePath)) {
@@ -33,7 +33,7 @@ app.post('/generate', (req, res) => {
         transitionDuration: 1, // seconds
         videoBitrate: 1024,
         videoCodec: 'libx264',
-        size: '640x?',
+        size: format === 'tiktok' ? '1080x1920' : '1920x1080',
         audioBitrate: '128k',
         audioChannels: 2,
         format: 'mp4',

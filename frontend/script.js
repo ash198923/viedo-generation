@@ -4,6 +4,7 @@ const videoOutput = document.getElementById('video-output');
 
 generateBtn.addEventListener('click', () => {
     const text = textInput.value;
+    const format = document.getElementById('format').value;
     videoOutput.innerHTML = 'Generating video...';
 
     fetch('/generate', {
@@ -11,7 +12,7 @@ generateBtn.addEventListener('click', () => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, format }),
     })
     .then(response => response.json())
     .then(data => {
